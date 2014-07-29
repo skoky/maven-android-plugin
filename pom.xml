@@ -18,8 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- the progressive-company-super-pom manages all plugin versions for us, we only need to override 
-    where we depend on lower version (e.g. plugin-plugin) -->
+    <!-- the progressive-company-super-pom manages all plugin versions for us -->
     <parent>
         <groupId>com.simpligility.maven</groupId>
         <artifactId>progressive-organization-pom</artifactId>
@@ -40,10 +39,7 @@
     <properties>
         <scm.branch>master</scm.branch>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven-plugin-plugin.version>3.3</maven-plugin-plugin.version>
         <maven.api.version>3.0.5</maven.api.version>
-        <maven-testing.api.version>3.2.0</maven-testing.api.version>
 
         <easymock.version>3.2</easymock.version>
         <powermock.version>1.5.2</powermock.version>
@@ -331,11 +327,6 @@
                 <version>${powermock.version}</version>
             </dependency>
 
-           <dependency>
-                <groupId>org.apache.maven.plugin-testing</groupId>
-                <artifactId>maven-plugin-testing-harness</artifactId>
-                <version>${maven-testing.api.version}</version>
-            </dependency>
             <dependency>
               <groupId>org.apache.maven.shared</groupId>
               <artifactId>maven-verifier</artifactId>
@@ -539,14 +530,6 @@
             <artifactId>powermock-core</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.maven.plugin-testing</groupId>
-            <artifactId>maven-plugin-testing-harness</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
     </dependencies>
 
     <build>
@@ -757,7 +740,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>${maven-plugin-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
