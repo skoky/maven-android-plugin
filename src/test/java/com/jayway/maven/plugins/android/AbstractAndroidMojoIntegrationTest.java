@@ -2,9 +2,9 @@ package com.jayway.maven.plugins.android;
 
 import java.util.Arrays;
 
-import io.takari.maven.testing.TestResources;
 import io.takari.maven.testing.it.VerifierRuntime;
 
+import org.apache.maven.plugin.testing.resources.TestResources;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

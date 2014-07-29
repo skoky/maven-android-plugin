@@ -10,9 +10,10 @@ import com.jayway.maven.plugins.android.AbstractAndroidMojoIntegrationTest;
 
 public class ZipalignMojoIntegrationTest extends AbstractAndroidMojoIntegrationTest {
 
-  protected ZipalignMojoIntegrationTest(String mavenVersion) throws Exception {
+  public ZipalignMojoIntegrationTest(String mavenVersion) throws Exception {
     super(mavenVersion);
   }
+  
   
   @Test
   public void testBasic() throws Exception {
@@ -25,11 +26,12 @@ public class ZipalignMojoIntegrationTest extends AbstractAndroidMojoIntegrationT
           .forProject(basedir)
           // switch on debug logging
           // .withCliOptions("-X") // somehow this is not on the classpath, must have old version or so
-          .execute("compile");
+          //.execute("compile");
+    .execute("com.jayway.maven.plugins.android.generation2:android-maven-plugin:zipalign");
 
     result.assertErrorFreeLog();
 
-    //result.assertLogText(""); 
+    result.assertLogText("Skipping zipalign on jar"); 
 
     //TestResources.assertFilesPresent(basedir, "target/sample/sample.txt");
   }
