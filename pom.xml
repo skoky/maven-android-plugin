@@ -41,19 +41,9 @@
         <scm.branch>master</scm.branch>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <maven-plugin-plugin.version>3.2</maven-plugin-plugin.version>
+        <maven-plugin-plugin.version>3.3</maven-plugin-plugin.version>
         <maven.api.version>3.0.5</maven.api.version>
-
-        <!--
-            DON'T UPGRADE until we decide that building AMP requires maven-3.1+
-
-            maven-testing-plugin-3.0.0 depends on Maven 3.1 which causes the test cases to fail when run against
-            Maven-3.0 because the Maven-3.1 dependency resolution classes get loaded instead.
-
-            maven-testing-plugin-2.1 only depends on Maven-3.0.3 so it is safe to use
-            while we still allow the plugin to be built with maven-3.0
-        -->
-        <maven-testing.api.version>2.1</maven-testing.api.version>
+        <maven-testing.api.version>3.2.0</maven-testing.api.version>
 
         <easymock.version>3.2</easymock.version>
         <powermock.version>1.5.2</powermock.version>
@@ -61,10 +51,10 @@
         <!-- Attention - make sure that the tools version is the versions of the transitive dependencies of the builder version -->
         <!--  upgrade currently not possible since there are dependency conflicts between lint and maven-plugin-api 
         with regards to guava that break the test execution, see DependencyHierarchy analysis in Eclipse, need to investigate more -->
-<!--         <android.builder.version>0.9.2</android.builder.version> -->
-<!--         <android.tools.version>22.7.2</android.tools.version> -->
-        <android.builder.version>0.7.3</android.builder.version>
-        <android.tools.version>22.4.2</android.tools.version>
+        <android.builder.version>0.9.2</android.builder.version>
+        <android.tools.version>22.7.2</android.tools.version>
+<!--         <android.builder.version>0.7.3</android.builder.version> -->
+<!--         <android.tools.version>22.4.2</android.tools.version> -->
     </properties>
 
     <scm>
@@ -119,7 +109,7 @@
     </mailingLists>
 
     <prerequisites>
-        <maven>3.0.4</maven>
+        <maven>3.1.1</maven>
     </prerequisites>
 
     <dependencyManagement>
@@ -496,6 +486,13 @@
 
         <!-- test deps -->
         <dependency>
+          <groupId>io.takari.maven.plugins</groupId>
+          <artifactId>takari-plugin-testing</artifactId>
+          <version>1.8.0-SNAPSHOT</version>
+          <scope>test</scope>
+        </dependency>
+        
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -510,7 +507,6 @@
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>${easymock.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -549,6 +545,7 @@
             <artifactId>maven-plugin-testing-harness</artifactId>
             <scope>test</scope>
         </dependency>
+
 
     </dependencies>
 
@@ -704,6 +701,54 @@
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <stagingProfileId>26a4c760b261ca</stagingProfileId>
                 </configuration>
+            </plugin>
+            
+            <!--  add support for reactor resolution based IT tests -->
+            <plugin>
+              <groupId>io.takari.maven.plugins</groupId>
+              <artifactId>takari-plugin-testing-plugin</artifactId>
+              <version>1.8.0-SNAPSHOT</version>
+              <executions>
+                <execution>
+                  <id>testProperties</id>
+                  <goals>
+                    <goal>testProperties</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <!--  get Maven runtime required for IT tests, see AbstractAndroidMojoIntegrationTest -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-dependency-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>unpack</id>
+                  <phase>generate-test-resources</phase>
+                  <goals>
+                    <goal>unpack</goal>
+                  </goals>
+                  <configuration>
+                    <outputDirectory>${project.build.directory}/maven-installation</outputDirectory>
+                    <artifactItems>
+                      <!-- <artifactItem> -->
+                      <!-- <groupId>org.apache.maven</groupId> -->
+                      <!-- <artifactId>apache-maven</artifactId> -->
+                      <!-- <version>3.2.1</version> -->
+                      <!-- <classifier>bin</classifier> -->
+                      <!-- <type>tar.gz</type> -->
+                      <!-- </artifactItem> -->
+                      <artifactItem>
+                        <groupId>org.apache.maven</groupId>
+                        <artifactId>apache-maven</artifactId>
+                        <version>3.2.2</version>
+                        <classifier>bin</classifier>
+                        <type>tar.gz</type>
+                      </artifactItem>
+                    </artifactItems>
+                  </configuration>
+                </execution>
+              </executions>
             </plugin>
         </plugins>
     </build>
