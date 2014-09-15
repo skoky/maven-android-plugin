@@ -777,14 +777,19 @@ public class ManifestUpdateMojo extends AbstractAndroidMojo
         project.getProperties().setProperty( "android.manifest.versionCode", String.valueOf( verCode ) );
     }
 
-    private String generateVersionCodeFromVersionName( String versionName ) 
+    public String generateVersionCodeFromVersionName( String versionName )
     {
       String[] versionNameDigits = versionName.replaceAll( "[^0-9.]", "" ).split( "\\." );
       
       long versionCode = 0;
       for ( int i = 0; i < versionNameDigits.length; i++ ) 
       {
-        double digitMultiplayer = Math.pow( 10, i * NUMBER_OF_DIGITS_FOR_VERSION_POSITION );
+
+          int mp = NUMBER_OF_DIGITS_FOR_VERSION_POSITION;
+          double digitMultiplayer = Math.pow( 10, i * mp);
+          if (i==2) digitMultiplayer = digitMultiplayer/10;
+          if (i==3) digitMultiplayer = digitMultiplayer/100;
+          if (i==4) digitMultiplayer = digitMultiplayer/10000;
         String versionDigit = versionNameDigits[versionNameDigits.length - i - 1 ];
         versionCode += Integer.valueOf( versionDigit ).intValue() * digitMultiplayer;
       }

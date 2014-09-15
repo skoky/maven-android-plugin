@@ -28,7 +28,7 @@
 
     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
     <artifactId>android-maven-plugin</artifactId>
-    <version>3.9.0-rc.3</version>
+    <version>3.9.0-rc.3-wn</version>
     <packaging>maven-plugin</packaging>
 
     <name>Android Maven Plugin - android-maven-plugin</name>
@@ -84,11 +84,22 @@
         <url>https://travis-ci.org/jayway/maven-android-plugin</url>
     </ciManagement>
 
+    <!--<distributionManagement>-->
+        <!--<snapshotRepository>-->
+            <!--<id>ossrh</id>-->
+            <!--<name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>-->
+            <!--<url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>-->
+        <!--</snapshotRepository>-->
+    <!--</distributionManagement>-->
+
     <distributionManagement>
+        <repository>
+            <id>czsrv-evcvs01.wn-cz.local-releases</id>
+            <url>http://maven-repo.wn-cz.local:8081/artifactory/ext-releases-local</url>
+        </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>
-            <url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>
+            <id>czsrv-evcvs01.wn-cz.local-releases</id>
+            <url>http://maven-repo.wn-cz.local:8081/artifactory/ext-snapshots-local</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -551,6 +562,8 @@
                             but with header check disabled, using the license plugin for that instead -->
                         <configLocation>src/conf/maven_checks.xml</configLocation>
                         <enableRulesSummary>false</enableRulesSummary>
+                        <violationSeverity>info</violationSeverity>
+                        <skip>true</skip>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -683,17 +696,17 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <inherited>false</inherited>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <stagingProfileId>26a4c760b261ca</stagingProfileId>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.sonatype.plugins</groupId>-->
+                <!--<artifactId>nexus-staging-maven-plugin</artifactId>-->
+                <!--<extensions>true</extensions>-->
+                <!--<inherited>false</inherited>-->
+                <!--<configuration>-->
+                    <!--<serverId>ossrh</serverId>-->
+                    <!--<nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+                    <!--<stagingProfileId>26a4c760b261ca</stagingProfileId>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
